@@ -1,0 +1,129 @@
+//////////////////////////////////////////////////////
+// ENUMS
+//////////////////////////////////////////////////////
+
+Enum user_role {
+  ADMIN
+  STAFF
+  CLIENT
+}
+
+Enum evidence_type {
+  IMAGE
+  PDF
+  ANY
+}
+
+Enum case_status {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+Enum stage_status {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+//////////////////////////////////////////////////////
+// TABLES
+//////////////////////////////////////////////////////
+
+Table users {
+  id             int       [pk, increment]
+  name           varchar   [not null]
+  email          varchar   [not null, unique]
+  password_hash  varchar   [not null]
+  role           user_role [not null]
+
+  Note: 'User sistem (ADMIN, STAFF, CLIENT)'
+}
+
+Table service_types {
+  id          int      [pk, increment]
+  code        varchar  [not null, unique]
+  name        varchar  [not null]
+  description text
+
+  Note: 'Jenis layanan (misal: Pendirian PT, Perjanjian, dsb)'
+}
+
+Table workflow_templates {
+  id              int      [pk, increment]
+  service_type_id int      [not null, ref: > service_types.id]
+  name            varchar  [not null]
+  is_active       boolean  [not null, default: true]
+
+  Note: 'Template alur untuk tiap ServiceType'
+}
+
+Table stage_templates {
+  id                    int           [pk, increment]
+  workflow_id           int           [not null, ref: > workflow_templates.id]
+  name                  varchar       [not null]
+  description           text
+  order_index           int           [not null]
+  required_evidence     boolean       [not null, default: false]
+  evidence_type         evidence_type [not null]
+  evidence_instruction  text
+
+  Note: 'Step-step dalam workflow (template)'
+}
+
+Table service_cases {
+  id              int         [pk, increment]
+  service_type_id int         [not null, ref: > service_types.id]
+  workflow_id     int         [not null, ref: > workflow_templates.id]
+  user_id       int         [not null, ref: > users.id]  // client sebagai User dengan role CLIENT
+  username     varchar     [not null]                   // cache nama client saat itu
+  status          case_status [not null]
+  tracking_code   varchar     [not null, unique]
+  created_at      datetime    [not null]
+  updated_at      datetime    [not null]
+
+  Note: 'Case konkret yang dikerjakan untuk client (User)'
+}
+
+Table case_stages {
+  id                int          [pk, increment]
+  case_id           int          [not null, ref: > service_cases.id]
+  stage_template_id int          [ref: > stage_templates.id] // boleh null (kalau template berubah)
+  name              varchar      [not null]                  // copy dari template
+  order_index       int          [not null]
+  status            stage_status [not null]
+  started_at        datetime
+  completed_at      datetime
+  notes             text
+
+  Note: 'Progress tiap tahap dalam suatu case'
+}
+
+Table evidences {
+  id            int      [pk, increment]
+  case_stage_id int      [not null, ref: > case_stages.id]
+  file_url      varchar  [not null]
+  file_name     varchar  [not null]
+  file_type     varchar
+  description   text
+  uploaded_by   int      [not null, ref: > users.id]
+  uploaded_at   datetime [not null]
+
+  Note: 'Dokumen bukti (gambar/PDF) tiap stage'
+}
+
+//////////////////////////////////////////////////////
+// RELATION SUMMARY (opsional, biar kebaca jelas)
+//////////////////////////////////////////////////////
+
+// service_types 1-N workflow_templates
+// service_types 1-N service_cases
+// workflow_templates 1-N stage_templates
+// workflow_templates 1-N service_cases (workflow snapshot)
+// users (role=CLIENT) 1-N service_cases (sebagai client)
+// service_cases 1-N case_stages
+// stage_templates 1-N case_stages
+// case_stages 1-N evidences
+// users 1-N evidences (uploaded_by)
