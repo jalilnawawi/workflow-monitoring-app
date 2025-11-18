@@ -1,0 +1,21 @@
+flowchart TD
+    A[Login sebagai Admin] --> B[Pilih menu 'Master Layanan']
+    B --> C{Service Type sudah ada?}
+    C -- Belum --> D[Tambah Service Type baru<br/>mis: Pendirian PT, Perubahan Data]
+    C -- Sudah --> E[Pilih Service Type yang ada]
+    D --> E
+
+    E --> F[Masuk ke 'Workflow Template']
+    F --> G{Workflow sudah ada?}
+    G -- Belum --> H[Buat Workflow baru<br/>mis: 'Workflow Pendirian PT Default']
+    G -- Sudah --> I[Pilih Workflow yang akan diedit]
+
+    H --> J[Masuk ke pengaturan Tahapan Stage]
+I --> J
+
+J --> K[Tambah / Edit Stage:<br/>1. Nama Tahap<br/>2. Urutan<br/>3. Wajib Evidence?<br/>4. Tipe Evidence<br/>5. Instruksi]
+K --> L{Flow sudah lengkap?}
+L -- Belum --> J
+L -- Ya --> M[Aktifkan Workflow isActive = true]
+
+M --> N[Admin selesai, siap digunakan oleh tim operasional]

@@ -1,0 +1,25 @@
+flowchart TD
+    A[Staff Login] --> B[Pilih menu 'Kasus Baru']
+    B --> C[Pilih Service Type<br/>mis: Pendirian PT]
+    C --> D[Input data klien & detail perusahaan]
+    D --> E[Submit -> Sistem buat Case<br/>+ generate CaseStage dari Workflow aktif]
+
+    E --> F[Staff buka detail Case]
+    F --> G[Tampilkan daftar tahapan berurutan<br/>Verifikasi Nama, Draft Akta, dst.]
+
+    G --> H[Pilih tahap pertama yang statusnya PENDING]
+    H --> I[Kerjakan tahap tersebut di dunia nyata]
+
+    I --> J[Upload Evidence sesuai instruksi<br/>Screenshot / PDF / Foto]
+    J --> K{Evidence sudah ter-upload?}
+    K -- Belum --> J
+    K -- Ya --> L[Update status tahap menjadi COMPLETED]
+
+    L --> M{Masih ada tahap berikutnya?}
+    M -- Ya --> H
+    M -- Tidak --> N[Update status Case menjadi COMPLETED]
+
+%% Bagian untuk Klien
+    E --> O[Klien membuka halaman tracking<br/>pakai trackingCode]
+    O --> P[System tampilkan timeline tahapan:<br/>tahap selesai, sedang jalan, dan pending]
+
