@@ -37,7 +37,7 @@ public class StageTemplate extends BaseEntity {
     private Integer orderIndex;
 
     @Column(name = "required_evidence", nullable = false)
-    private boolean requiredEvidence;
+    private Boolean requiredEvidence;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "evidence_type", nullable = false, length = 30)
