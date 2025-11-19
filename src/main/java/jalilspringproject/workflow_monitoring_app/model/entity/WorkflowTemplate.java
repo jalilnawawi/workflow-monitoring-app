@@ -29,7 +29,7 @@ public class WorkflowTemplate extends BaseEntity {
     private String name;
 
     @Column(name = "is_active", nullable = false)
-    private boolean active;
+    private Boolean active;
 
     @OneToMany(
             mappedBy = "workflowTemplate",
