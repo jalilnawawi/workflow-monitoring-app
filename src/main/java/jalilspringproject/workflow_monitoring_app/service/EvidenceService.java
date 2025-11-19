@@ -5,7 +5,7 @@ import jalilspringproject.workflow_monitoring_app.model.dto.evidence.response.Ev
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.response.GetEvidenceResponseDto;
 
 public interface EvidenceService {
-    EvidenceResponseDto createEvidence(EvidenceRequestDto evidenceRequestDto);
+    EvidenceResponseDto createEvidence(Long caseStageId, EvidenceRequestDto evidenceRequestDto);
     GetEvidenceResponseDto getAllEvidence();
     GetEvidenceResponseDto getEvidenceById(Long id);
     EvidenceResponseDto updateEvidence(Long id, EvidenceRequestDto evidenceRequestDto);

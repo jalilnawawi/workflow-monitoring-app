@@ -5,7 +5,7 @@ import jalilspringproject.workflow_monitoring_app.model.dto.case_stage.response.
 import jalilspringproject.workflow_monitoring_app.model.dto.case_stage.response.GetCaseStageResponseDto;
 
 public interface CaseStageService {
-    CaseStageResponseDto createCaseStage(CaseStageRequestDto caseStageRequestDto);
+    CaseStageResponseDto createCaseStage(Long serviceCaseId, CaseStageRequestDto caseStageRequestDto);
     GetCaseStageResponseDto getAll();
     GetCaseStageResponseDto getById(Long id);
     CaseStageResponseDto updateCaseStage(Long id, CaseStageRequestDto caseStageRequestDto);

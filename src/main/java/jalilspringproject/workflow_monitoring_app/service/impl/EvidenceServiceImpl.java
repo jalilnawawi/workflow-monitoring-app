@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EvidenceServiceImpl implements EvidenceService {
     @Override
-    public EvidenceResponseDto createEvidence(EvidenceRequestDto evidenceRequestDto) {
+    public EvidenceResponseDto createEvidence(Long caseStageId, EvidenceRequestDto evidenceRequestDto) {
         return null;
     }
 

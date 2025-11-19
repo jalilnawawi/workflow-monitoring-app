@@ -14,7 +14,7 @@ public class CaseStageServiceImpl implements CaseStageService {
     CaseStageRepository caseStageRepository;
 
     @Override
-    public CaseStageResponseDto createCaseStage(CaseStageRequestDto caseStageRequestDto) {
+    public CaseStageResponseDto createCaseStage(Long serviceCaseId, CaseStageRequestDto caseStageRequestDto) {
         return null;
     }
 

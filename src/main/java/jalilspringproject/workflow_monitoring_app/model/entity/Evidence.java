@@ -16,6 +16,7 @@ public class Evidence {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "evidence_id")
     private Long id;
 
     // case_stage_id (FK → CaseStage.id)

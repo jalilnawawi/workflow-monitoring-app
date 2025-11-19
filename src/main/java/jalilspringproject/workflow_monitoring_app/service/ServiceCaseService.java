@@ -5,7 +5,7 @@ import jalilspringproject.workflow_monitoring_app.model.dto.service_case.respons
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
 
 public interface ServiceCaseService {
-    ServiceCaseResponseDto createServiceCase(ServiceCaseRequestDto serviceCaseRequestDto);
+    ServiceCaseResponseDto createServiceCase(Long serviceTypeId, ServiceCaseRequestDto serviceCaseRequestDto);
     GetServiceCaseResponseDto getAll();
     GetServiceCaseResponseDto getById(Long serviceCaseId);
     ServiceCaseResponseDto updateServiceCase(Long serviceCaseId, ServiceCaseRequestDto serviceCaseRequestDto);

@@ -19,6 +19,7 @@ public class StageTemplate extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "stage_template_id")
     private Long id;
 
     // workflow_id (FK → WorkflowTemplate.id)

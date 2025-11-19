@@ -19,6 +19,7 @@ public class ServiceCase extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "service_case_id")
     private Long id;
 
     // service_type_id (FK → ServiceType.id)

@@ -1,9 +1,10 @@
-package jalilspringproject.workflow_monitoring_app.service;
+package jalilspringproject.workflow_monitoring_app.service.impl;
 
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request.ServiceCaseRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.repository.ServiceCaseRepository;
+import jalilspringproject.workflow_monitoring_app.service.ServiceCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

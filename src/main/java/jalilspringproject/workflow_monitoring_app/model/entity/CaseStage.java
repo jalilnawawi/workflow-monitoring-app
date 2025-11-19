@@ -20,11 +20,12 @@ public class CaseStage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "case_stage_id")
     private Long id;
 
     // case_id (FK → ServiceCase.id)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "case_id", nullable = false)
+    @JoinColumn(name = "service_case_id", nullable = false)
     private ServiceCase serviceCase;
 
     // stage_template_id (FK → StageTemplate.id)

@@ -17,6 +17,7 @@ import java.util.List;
 public class WorkflowTemplate extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "workflow_template_id")
     private Long id;
 
     // service_type_id (FK → ServiceType.id)
