@@ -6,9 +6,11 @@ import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.entity.ServiceCase;
+import jalilspringproject.workflow_monitoring_app.model.entity.User;
 import jalilspringproject.workflow_monitoring_app.model.enums.CaseStatus;
 import jalilspringproject.workflow_monitoring_app.repository.ServiceCaseRepository;
 import jalilspringproject.workflow_monitoring_app.repository.ServiceTypeRepository;
+import jalilspringproject.workflow_monitoring_app.repository.UserRepository;
 import jalilspringproject.workflow_monitoring_app.repository.WorkflowTemplateRepository;
 import jalilspringproject.workflow_monitoring_app.service.ServiceCaseService;
 import jalilspringproject.workflow_monitoring_app.util.interceptor.LoggingHolder;
@@ -18,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ServiceCaseServiceImpl implements ServiceCaseService {
@@ -30,6 +35,9 @@ public class ServiceCaseServiceImpl implements ServiceCaseService {
 
     @Autowired
     WorkflowTemplateRepository workflowTemplateRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     LoggingHolder loggingHolder;
@@ -46,10 +54,19 @@ public class ServiceCaseServiceImpl implements ServiceCaseService {
             serviceCase.setWorkflowTemplate(workflowTemplateRepository.findById(requestDto.getWorkflowTemplateId()).orElseThrow(
                     () -> new RuntimeException("Workflow Template not found")
             ));
-            serviceCase.setUser(null);
-            serviceCase.setUsername(null);
-            serviceCase.setStatus(CaseStatus.IN_PROGRESS);
-            serviceCase.setTrackingCode(null);
+
+            User user = userRepository.findById(UUID.fromString("a802aa3c-78a5-4e53-b95e-38fe0bf7ce0e")).orElseThrow(
+                    () -> new RuntimeException("User not found")
+            );
+
+            serviceCase.setUser(user);
+            serviceCase.setUsername(user.getUsername());
+            serviceCase.setStatus(CaseStatus.PENDING);
+
+            String dateNow = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            String randomString = UUID.randomUUID().toString();
+            String trackingCode = "ORDER-" + dateNow + "-" + randomString.substring(0, 5);
+            serviceCase.setTrackingCode(trackingCode);
 
             ServiceCase saved = serviceCaseRepository.save(serviceCase);
             ServiceCaseResponseDto responseDto = ServiceCaseResponseDto.toServiceCaseResponseDto(saved);

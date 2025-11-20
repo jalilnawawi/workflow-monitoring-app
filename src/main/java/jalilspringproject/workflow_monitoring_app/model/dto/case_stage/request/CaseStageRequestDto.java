@@ -1,11 +1,11 @@
 package jalilspringproject.workflow_monitoring_app.model.dto.case_stage.request;
 
-import jalilspringproject.workflow_monitoring_app.model.entity.ServiceCase;
-import jalilspringproject.workflow_monitoring_app.model.entity.StageTemplate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter
 @Getter

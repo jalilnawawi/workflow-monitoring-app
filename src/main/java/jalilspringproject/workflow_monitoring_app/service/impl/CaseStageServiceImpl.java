@@ -5,13 +5,18 @@ import jalilspringproject.workflow_monitoring_app.model.base_response.ResponseMe
 import jalilspringproject.workflow_monitoring_app.model.dto.case_stage.request.CaseStageRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.case_stage.response.CaseStageResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.case_stage.response.GetCaseStageResponseDto;
+import jalilspringproject.workflow_monitoring_app.model.dto.evidence.request.EvidenceRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.entity.CaseStage;
+import jalilspringproject.workflow_monitoring_app.model.entity.Evidence;
+import jalilspringproject.workflow_monitoring_app.model.entity.ServiceCase;
+import jalilspringproject.workflow_monitoring_app.model.entity.StageTemplate;
 import jalilspringproject.workflow_monitoring_app.model.enums.CaseStatus;
 import jalilspringproject.workflow_monitoring_app.model.enums.StageStatus;
 import jalilspringproject.workflow_monitoring_app.repository.CaseStageRepository;
 import jalilspringproject.workflow_monitoring_app.repository.ServiceCaseRepository;
 import jalilspringproject.workflow_monitoring_app.repository.StageTemplateRepository;
 import jalilspringproject.workflow_monitoring_app.service.CaseStageService;
+import jalilspringproject.workflow_monitoring_app.service.EvidenceService;
 import jalilspringproject.workflow_monitoring_app.util.interceptor.LoggingHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,6 +40,9 @@ public class CaseStageServiceImpl implements CaseStageService {
     StageTemplateRepository stageTemplateRepository;
 
     @Autowired
+    EvidenceService evidenceService;
+
+    @Autowired
     LoggingHolder loggingHolder;
 
     private static final Logger log = LogManager.getLogger(EvidenceServiceImpl.class);
@@ -42,12 +51,16 @@ public class CaseStageServiceImpl implements CaseStageService {
     public DataResponse<CaseStageResponseDto> createCaseStage(Long serviceCaseId, Long stageTemplateId, CaseStageRequestDto caseStageRequestDto) {
         try {
             CaseStage caseStage = new CaseStage();
-            caseStage.setServiceCase(serviceCaseRepository.findById(serviceCaseId).orElseThrow(
+            ServiceCase serviceCase = serviceCaseRepository.findById(serviceCaseId).orElseThrow(
                     () -> new RuntimeException("Service Case not found")
-            ));
-            caseStage.setStageTemplate(stageTemplateRepository.findById(stageTemplateId).orElseThrow(
+            );
+
+            caseStage.setServiceCase(serviceCase);
+
+            StageTemplate stageTemplate = stageTemplateRepository.findById(stageTemplateId).orElseThrow(
                     () -> new RuntimeException("Stage Template not found")
-            ));
+            );
+            caseStage.setStageTemplate(stageTemplate);
             caseStage.setName(caseStageRequestDto.getName());
             caseStage.setOrderIndex(caseStageRequestDto.getOrderIndex());
             caseStage.setStatus(StageStatus.valueOf(caseStageRequestDto.getStatus()));
