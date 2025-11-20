@@ -1,4 +1,4 @@
-package jalilspringproject.workflow_monitoring_app.util;
+package jalilspringproject.workflow_monitoring_app.util.interceptor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +14,4 @@ import org.springframework.stereotype.Component;
 public class LoggingHolder {
     private String path;
     private String date;
-    private String version;
 }

@@ -4,6 +4,8 @@ import lombok.Getter;
 
 @Getter
 public final class ResponseMessage {
+    public static final String PROCESS_SUCCESS = "Process successful.";
+    public static final String PROCESS_FAILED = "Process failed.";
     public static final String DATA_CREATED = "Data successfully created.";
     public static final String DATA_UPDATED = "Data successfully modified.";
     public static final String DATA_FETCHED = "Data(s) successfully fetched.";
