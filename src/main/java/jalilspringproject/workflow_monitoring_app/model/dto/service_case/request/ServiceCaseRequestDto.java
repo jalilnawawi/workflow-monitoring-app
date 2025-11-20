@@ -12,5 +12,4 @@ import lombok.Setter;
 public class ServiceCaseRequestDto {
     private Long serviceTypeId;
     private Long workflowTemplateId;
-    private String usernameClient;
 }

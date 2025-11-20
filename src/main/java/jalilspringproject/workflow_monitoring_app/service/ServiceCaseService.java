@@ -1,14 +1,17 @@
 package jalilspringproject.workflow_monitoring_app.service;
 
+import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request.ServiceCaseRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
 
+import java.util.List;
+
 public interface ServiceCaseService {
-    ServiceCaseResponseDto createServiceCase(Long serviceTypeId, ServiceCaseRequestDto serviceCaseRequestDto);
-    GetServiceCaseResponseDto getAll();
-    GetServiceCaseResponseDto getById(Long serviceCaseId);
-    ServiceCaseResponseDto updateServiceCase(Long serviceCaseId, ServiceCaseRequestDto serviceCaseRequestDto);
-    ServiceCaseResponseDto changeStatus(Long serviceCaseId, String status);
+    DataResponse<ServiceCaseResponseDto> createServiceCase(ServiceCaseRequestDto requestDto);
+    DataResponse<List<GetServiceCaseResponseDto>> getAll();
+    DataResponse<GetServiceCaseResponseDto> getById(Long serviceCaseId);
+    DataResponse<ServiceCaseResponseDto> updateServiceCase(Long serviceCaseId, ServiceCaseRequestDto serviceCaseRequestDto);
+    DataResponse<ServiceCaseResponseDto> changeStatus(Long serviceCaseId, String status);
     void deleteServiceCase(Long serviceCaseId);
 }

@@ -30,7 +30,7 @@ public class EvidenceServiceImpl implements EvidenceService {
     @Autowired
     private LoggingHolder loggingHolder;
 
-    private static final Logger log = LogManager.getLogger(ServiceTypeServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(EvidenceServiceImpl.class);
 
     @Override
     public DataResponse<EvidenceResponseDto> createEvidence(Long caseStageId, EvidenceRequestDto evidenceRequestDto) {
