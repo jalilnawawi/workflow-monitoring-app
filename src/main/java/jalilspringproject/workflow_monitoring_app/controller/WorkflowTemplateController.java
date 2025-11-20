@@ -1,6 +1,7 @@
 package jalilspringproject.workflow_monitoring_app.controller;
 
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
+import jalilspringproject.workflow_monitoring_app.model.dto.stage_template.response.GetStageTemplateResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.request.WorkflowTemplateRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.response.GetWorkflowTemplateResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.response.WorkflowTemplateResponseDto;
@@ -60,5 +61,13 @@ public class WorkflowTemplateController {
     public ResponseEntity<Void> deleteWorkflowTemplate(@PathVariable Long id) {
         workflowTemplateService.deleteWorkflowTemplate(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/{workflowTemplateId}/stage-templates")
+    public ResponseEntity<DataResponse<List<GetStageTemplateResponseDto>>> getStageTemplatesByWorkflowTemplateId(
+            @PathVariable Long workflowTemplateId
+    ) {
+        DataResponse<List<GetStageTemplateResponseDto>> response = workflowTemplateService.getByWorkflowTemplateId(workflowTemplateId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

@@ -1,6 +1,7 @@
 package jalilspringproject.workflow_monitoring_app.service;
 
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
+import jalilspringproject.workflow_monitoring_app.model.dto.stage_template.response.GetStageTemplateResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.request.WorkflowTemplateRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.response.GetWorkflowTemplateResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.response.WorkflowTemplateResponseDto;
@@ -14,4 +15,6 @@ public interface WorkflowTemplateService {
     DataResponse<WorkflowTemplateResponseDto> updateWorkflowTemplate(Long id, WorkflowTemplateRequestDto workflowTemplateRequestDto);
     DataResponse<WorkflowTemplateResponseDto> activateWorkflowTemplate(Long id);
     void deleteWorkflowTemplate(Long id);
+
+    DataResponse<List<GetStageTemplateResponseDto>> getByWorkflowTemplateId(Long workflowTemplateId);
 }

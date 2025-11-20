@@ -2,10 +2,12 @@ package jalilspringproject.workflow_monitoring_app.service.impl;
 
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.base_response.ResponseMessage;
+import jalilspringproject.workflow_monitoring_app.model.dto.stage_template.response.GetStageTemplateResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.request.WorkflowTemplateRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.response.GetWorkflowTemplateResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.workflow_template.response.WorkflowTemplateResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.entity.ServiceType;
+import jalilspringproject.workflow_monitoring_app.model.entity.StageTemplate;
 import jalilspringproject.workflow_monitoring_app.model.entity.WorkflowTemplate;
 import jalilspringproject.workflow_monitoring_app.repository.ServiceTypeRepository;
 import jalilspringproject.workflow_monitoring_app.repository.WorkflowTemplateRepository;
@@ -189,6 +191,33 @@ public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
             workflowTemplateRepository.delete(workflowTemplate);
         } catch (Exception e) {
             log.error("Error deleting workflow template with id: {}", e.getMessage());
+        }
+    }
+
+    @Override
+    public DataResponse<List<GetStageTemplateResponseDto>> getByWorkflowTemplateId(Long workflowTemplateId) {
+        try {
+            List<StageTemplate> stageTemplates = workflowTemplateRepository.findStageTemplatesByWorkflowTemplateId(workflowTemplateId);
+            List<GetStageTemplateResponseDto> responseDtos = stageTemplates.stream()
+                    .map(GetStageTemplateResponseDto::fromEntity)
+                    .toList();
+            return new DataResponse<>(
+                    ResponseMessage.DATA_FETCHED,
+                    "Proses Berhasil",
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.OK.value(),
+                    responseDtos
+            );
+        } catch (Exception e) {
+            log.error("Error fetching stage templates for workflow template id {}: {}", workflowTemplateId, e.getMessage());
+            return new DataResponse<>(
+                    ResponseMessage.MSG_INTERNAL_SERVER_ERROR,
+                    "Proses Gagal: " + e.getMessage(),
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null);
         }
     }
 }
