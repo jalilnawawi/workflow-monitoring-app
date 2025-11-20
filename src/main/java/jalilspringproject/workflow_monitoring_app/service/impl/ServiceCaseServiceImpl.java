@@ -14,7 +14,7 @@ public class ServiceCaseServiceImpl implements ServiceCaseService {
     ServiceCaseRepository serviceCaseRepository;
 
     @Override
-    public ServiceCaseResponseDto createServiceCase(ServiceCaseRequestDto serviceCaseRequestDto) {
+    public ServiceCaseResponseDto createServiceCase(Long serviceTypeId, ServiceCaseRequestDto serviceCaseRequestDto) {
         return null;
     }
 

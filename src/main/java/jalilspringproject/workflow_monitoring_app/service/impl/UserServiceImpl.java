@@ -8,10 +8,9 @@ import jalilspringproject.workflow_monitoring_app.model.entity.User;
 import jalilspringproject.workflow_monitoring_app.model.enums.UserRole;
 import jalilspringproject.workflow_monitoring_app.repository.UserRepository;
 import jalilspringproject.workflow_monitoring_app.service.UserService;
-import jalilspringproject.workflow_monitoring_app.util.LoggingHolder;
+import jalilspringproject.workflow_monitoring_app.util.interceptor.LoggingHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,6 @@ public class UserServiceImpl implements UserService {
                             loggingHolder.getPath(),
                             loggingHolder.getDate(),
                             HttpStatus.BAD_REQUEST.value(),
-                            loggingHolder.getVersion(),
                             null);
             }
 
@@ -63,7 +61,6 @@ public class UserServiceImpl implements UserService {
                     loggingHolder.getPath(),
                     loggingHolder.getDate(),
                     HttpStatus.CREATED.value(),
-                    loggingHolder.getVersion(),
                     CreateUserResponseDto.toCreateUserResponseDto(savedUser)
             );
 
@@ -75,7 +72,6 @@ public class UserServiceImpl implements UserService {
                     loggingHolder.getPath(),
                     loggingHolder.getDate(),
                     HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    loggingHolder.getVersion(),
                     null);
         }
     }

@@ -23,6 +23,5 @@ public class BaseEntity implements Serializable {
 
 
     @Column(name = "deleted_at")
-    @UpdateTimestamp
     private LocalDateTime deletedAt;
 }

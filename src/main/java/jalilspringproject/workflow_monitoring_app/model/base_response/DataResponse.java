@@ -13,6 +13,5 @@ public class DataResponse<T> {
     String path;
     String date;
     int code;
-    String version;
     T data;
 }
