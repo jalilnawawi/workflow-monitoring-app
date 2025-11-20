@@ -12,14 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stage-templates")
+@RequestMapping("api/stage-templates")
 public class StageTemplateController {
     @Autowired
     private StageTemplateService stageTemplateService;
 
     @PostMapping
-    public ResponseEntity<DataResponse<StageTemplateResponseDto>> createStageTemplate(@RequestBody StageTemplateRequestDto stageTemplateRequestDto){
-        DataResponse<StageTemplateResponseDto> response = stageTemplateService.createStageTemplate(stageTemplateRequestDto);
+    public ResponseEntity<DataResponse<StageTemplateResponseDto>> createStageTemplate(
+            @RequestParam Long workflowTemplateId,
+            @RequestBody StageTemplateRequestDto stageTemplateRequestDto
+    ){
+        DataResponse<StageTemplateResponseDto> response = stageTemplateService.createStageTemplate(workflowTemplateId, stageTemplateRequestDto);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 

@@ -12,5 +12,6 @@ public interface WorkflowTemplateService {
     DataResponse<List<GetWorkflowTemplateResponseDto>> getAll();
     DataResponse<GetWorkflowTemplateResponseDto> getById(Long id);
     DataResponse<WorkflowTemplateResponseDto> updateWorkflowTemplate(Long id, WorkflowTemplateRequestDto workflowTemplateRequestDto);
+    DataResponse<WorkflowTemplateResponseDto> activateWorkflowTemplate(Long id);
     void deleteWorkflowTemplate(Long id);
 }

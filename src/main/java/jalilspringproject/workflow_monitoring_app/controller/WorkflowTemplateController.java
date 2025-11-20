@@ -48,6 +48,14 @@ public class WorkflowTemplateController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<DataResponse<WorkflowTemplateResponseDto>> activateWorkflowTemplate(
+            @PathVariable Long id
+    ) {
+        DataResponse<WorkflowTemplateResponseDto> response = workflowTemplateService.activateWorkflowTemplate(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkflowTemplate(@PathVariable Long id) {
         workflowTemplateService.deleteWorkflowTemplate(id);

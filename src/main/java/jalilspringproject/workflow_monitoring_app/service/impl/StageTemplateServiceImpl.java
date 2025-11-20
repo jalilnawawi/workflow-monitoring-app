@@ -8,6 +8,7 @@ import jalilspringproject.workflow_monitoring_app.model.dto.stage_template.respo
 import jalilspringproject.workflow_monitoring_app.model.entity.StageTemplate;
 import jalilspringproject.workflow_monitoring_app.model.enums.EvidenceType;
 import jalilspringproject.workflow_monitoring_app.repository.StageTemplateRepository;
+import jalilspringproject.workflow_monitoring_app.repository.WorkflowTemplateRepository;
 import jalilspringproject.workflow_monitoring_app.service.StageTemplateService;
 import jalilspringproject.workflow_monitoring_app.util.interceptor.LoggingHolder;
 import org.apache.logging.log4j.LogManager;
@@ -24,14 +25,20 @@ public class StageTemplateServiceImpl implements StageTemplateService {
     private StageTemplateRepository stageTemplateRepository;
 
     @Autowired
+    private WorkflowTemplateRepository workflowTemplateRepository;
+
+    @Autowired
     private LoggingHolder loggingHolder;
 
     private static final Logger log = LogManager.getLogger(ServiceTypeServiceImpl.class);
 
     @Override
-    public DataResponse<StageTemplateResponseDto> createStageTemplate(StageTemplateRequestDto stageTemplateRequestDto) {
+    public DataResponse<StageTemplateResponseDto> createStageTemplate(Long workflowTemplateId, StageTemplateRequestDto stageTemplateRequestDto) {
         try {
             StageTemplate stageTemplate = new StageTemplate();
+            stageTemplate.setWorkflowTemplate(workflowTemplateRepository.findById(workflowTemplateId).orElseThrow(
+                    () -> new RuntimeException("Workflow template not found")
+            ));
             stageTemplate.setName(stageTemplateRequestDto.getName());
             stageTemplate.setDescription(stageTemplateRequestDto.getDescription());
             stageTemplate.setOrderIndex(stageTemplateRequestDto.getOrderIndex());

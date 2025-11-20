@@ -152,6 +152,35 @@ public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
     }
 
     @Override
+    public DataResponse<WorkflowTemplateResponseDto> activateWorkflowTemplate(Long id) {
+        try {
+            WorkflowTemplate workflowTemplate = workflowTemplateRepository.findById(id).orElseThrow(
+                    () -> new Exception("Workflow Template not found with id: " + id)
+            );
+            workflowTemplate.setActive(true);
+            WorkflowTemplate activatedWorkflowTemplate = workflowTemplateRepository.save(workflowTemplate);
+            WorkflowTemplateResponseDto responseDto = WorkflowTemplateResponseDto.toResponseDto(activatedWorkflowTemplate);
+            return new DataResponse<>(
+                    ResponseMessage.DATA_UPDATED,
+                    "Proses Berhasil",
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.OK.value(),
+                    responseDto
+            );
+        } catch (Exception e) {
+            log.error("Error activating workflow template with id: {}", e.getMessage());
+            return new DataResponse<>(
+                    ResponseMessage.MSG_INTERNAL_SERVER_ERROR,
+                    "Proses Gagal: " + e.getMessage(),
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null);
+        }
+    }
+
+    @Override
     public void deleteWorkflowTemplate(Long id) {
         try {
             WorkflowTemplate workflowTemplate = workflowTemplateRepository.findById(id).orElseThrow(
