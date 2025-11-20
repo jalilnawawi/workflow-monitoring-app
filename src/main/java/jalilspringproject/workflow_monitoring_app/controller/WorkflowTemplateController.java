@@ -24,19 +24,19 @@ public class WorkflowTemplateController {
             @RequestBody WorkflowTemplateRequestDto workflowTemplateRequestDto
     ) {
         DataResponse<WorkflowTemplateResponseDto> response = workflowTemplateService.createWorkflowTemplate(serviceTypeId, workflowTemplateRequestDto);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping
     public ResponseEntity<DataResponse<List<GetWorkflowTemplateResponseDto>>> getAllWorkflowTemplates() {
         DataResponse<List<GetWorkflowTemplateResponseDto>> response = workflowTemplateService.getAll();
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DataResponse<GetWorkflowTemplateResponseDto>> getWorkflowTemplateById(@PathVariable Long id) {
         DataResponse<GetWorkflowTemplateResponseDto> response = workflowTemplateService.getById(id);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @PutMapping("/{id}")
@@ -45,7 +45,7 @@ public class WorkflowTemplateController {
             @RequestBody WorkflowTemplateRequestDto workflowTemplateRequestDto
     ) {
         DataResponse<WorkflowTemplateResponseDto> response = workflowTemplateService.updateWorkflowTemplate(id, workflowTemplateRequestDto);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{id}")

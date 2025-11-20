@@ -12,6 +12,6 @@ public class DataResponse<T> {
     String detail;
     String path;
     String date;
-    int code;
+    int statusCode;
     T data;
 }

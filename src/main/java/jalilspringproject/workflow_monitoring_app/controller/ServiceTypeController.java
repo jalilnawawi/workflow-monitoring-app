@@ -20,19 +20,19 @@ public class ServiceTypeController {
     @PostMapping
     public ResponseEntity<DataResponse<ServiceTypeResponseDto>> createServiceType(@RequestBody ServiceTypeRequestDto serviceTypeRequestDto){
         DataResponse<ServiceTypeResponseDto> response = serviceTypeService.createServiceType(serviceTypeRequestDto);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping
     public ResponseEntity<DataResponse<List<GetServiceTypeResponseDto>>> getAll(){
         DataResponse<List<GetServiceTypeResponseDto>> response = serviceTypeService.getAll();
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DataResponse<GetServiceTypeResponseDto>> getServiceType(@PathVariable("id") Long id){
         DataResponse<GetServiceTypeResponseDto> response = serviceTypeService.getById(id);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @PutMapping("/{id}")
@@ -40,7 +40,7 @@ public class ServiceTypeController {
             @PathVariable("id") Long id,
             @RequestBody ServiceTypeRequestDto serviceTypeRequestDto){
         DataResponse<ServiceTypeResponseDto> response = serviceTypeService.updateServiceType(id, serviceTypeRequestDto);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{id}")

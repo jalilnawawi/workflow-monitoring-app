@@ -4,7 +4,6 @@ import jalilspringproject.workflow_monitoring_app.model.base_response.DataRespon
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.request.EvidenceRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.response.EvidenceResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.response.GetEvidenceResponseDto;
-import jalilspringproject.workflow_monitoring_app.model.entity.Evidence;
 import jalilspringproject.workflow_monitoring_app.service.EvidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +23,19 @@ public class EvidenceController {
             @RequestBody EvidenceRequestDto requestDto
     ) {
         DataResponse<EvidenceResponseDto> response = evidenceService.createEvidence(caseStageId, requestDto);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping
     public ResponseEntity<DataResponse<List<GetEvidenceResponseDto>>> getAllEvidences(){
         DataResponse<List<GetEvidenceResponseDto>> response = evidenceService.getAllEvidence();
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DataResponse<GetEvidenceResponseDto>> getEvidenceById(@PathVariable Long id) {
         DataResponse<GetEvidenceResponseDto> response = evidenceService.getEvidenceById(id);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @PutMapping("/{id}")
@@ -45,7 +44,7 @@ public class EvidenceController {
             @RequestBody EvidenceRequestDto requestDto
     ) {
         DataResponse<EvidenceResponseDto> response = evidenceService.updateEvidence(id, requestDto);
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{id}")
