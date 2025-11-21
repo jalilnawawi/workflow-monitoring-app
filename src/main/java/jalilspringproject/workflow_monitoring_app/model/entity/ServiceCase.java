@@ -41,6 +41,9 @@ public class ServiceCase extends BaseEntity {
     @Column(name = "username", nullable = false, length = 150)
     private String username;
 
+    @Column(name = "case_name", length = 200)
+    private String caseName;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private CaseStatus status;

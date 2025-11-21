@@ -1,21 +1,21 @@
 flowchart TD
     A[Login sebagai Admin] --> B[Pilih menu 'Master Layanan']
-    B --> C{Service Type sudah ada?}
-    C -- Belum --> D[Tambah Service Type baru<br/>mis: Pendirian PT, Perubahan Data]
+    B --> C{Service Type sudah ada?<br/><br/> endpoint: GET /service-types}
+    C -- Belum --> D[Tambah Service Type baru<br/>mis: Pendirian PT, Perubahan Data<br/><br/> endpoint: POST /service-types]
     C -- Sudah --> E[Pilih Service Type yang ada]
     D --> E
 
-    E --> F[Masuk ke 'Workflow Template']
+    E --> F[Masuk ke 'Workflow Template'<br/><br/>endpoint: GET /workflow-templates]
     F --> G{Workflow sudah ada?}
-    G -- Belum --> H[Buat Workflow baru<br/>mis: 'Workflow Pendirian PT Default']
-    G -- Sudah --> I[Pilih Workflow yang akan diedit]
+    G -- Belum --> H[Buat Workflow baru<br/>mis: 'Workflow Pendirian PT Default<br/><br/> endpoint: POST /workflow-templates']
+    G -- Sudah --> I[Pilih Workflow yang akan diedit<br/><br/>endpoint: PUT /workflow-templates/:id]
 
-    H --> J[Masuk ke pengaturan Tahapan Stage]
+    H --> J[Masuk ke pengaturan Tahapan Stage<br/><br/>endpoint: GET /workflow-templates/:id/stages]
 I --> J
 
-J --> K[Tambah / Edit Stage:<br/>1. Nama Tahap<br/>2. Urutan<br/>3. Wajib Evidence?<br/>4. Tipe Evidence<br/>5. Instruksi]
+J --> K[Tambah / Edit Stage:<br/>1. Nama Tahap<br/>2. Urutan<br/>3. Wajib Evidence?<br/>4. Tipe Evidence<br/>5. Instruksi<br/><br/>endpoint: POST /stage-templates/:workflowTemplatedId<br/>atau PUT /stage-templates/:Id]
 K --> L{Flow sudah lengkap?}
 L -- Belum --> J
-L -- Ya --> M[Aktifkan Workflow isActive = true]
+L -- Ya --> M[Aktifkan Workflow isActive = true<br/><br/>endpoint: PATCH /workflow-templates/:id/status]
 
-M --> N[Admin selesai, siap digunakan oleh tim operasional]
+M --> N[Admin selesai, workflow siap digunakan oleh tim operasional]

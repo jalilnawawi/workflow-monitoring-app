@@ -1,5 +1,6 @@
 package jalilspringproject.workflow_monitoring_app.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.dto.stage_template.request.StageTemplateRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.stage_template.response.GetStageTemplateResponseDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/stage-templates")
 @CrossOrigin
+@Tag(name = "Stage Template Controller", description = "Controller untuk mengelola template tahapan dalam sebuah workflow.")
 public class StageTemplateController {
     @Autowired
     private StageTemplateService stageTemplateService;

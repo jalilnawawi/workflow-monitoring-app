@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.request.EvidenceRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.response.EvidenceResponseDto;
@@ -22,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/evidences")
 @CrossOrigin
+@Tag(name = "Evidence Controller", description = "Controller untuk mengelola dokumen atau berkas yang perlu dikumpulkan")
 public class EvidenceController {
     @Autowired
     private EvidenceService evidenceService;

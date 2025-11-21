@@ -1,5 +1,6 @@
 package jalilspringproject.workflow_monitoring_app.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_type.request.ServiceTypeRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_type.response.GetServiceTypeResponseDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/service-types")
 @CrossOrigin
+@Tag(name = "Service Type Controller", description = "Controller untuk mengelola jenis service yang ditawarkan.")
 public class ServiceTypeController {
     @Autowired
     private ServiceTypeService serviceTypeService;

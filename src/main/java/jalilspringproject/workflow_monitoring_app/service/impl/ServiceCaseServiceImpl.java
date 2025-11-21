@@ -3,10 +3,7 @@ package jalilspringproject.workflow_monitoring_app.service.impl;
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.base_response.ResponseMessage;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request.ServiceCaseRequestDto;
-import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
-import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
-import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.SummaryServiceCaseByStatusProjection;
-import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.SummaryServiceCaseByStatusResponse;
+import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.*;
 import jalilspringproject.workflow_monitoring_app.model.entity.ServiceCase;
 import jalilspringproject.workflow_monitoring_app.model.entity.User;
 import jalilspringproject.workflow_monitoring_app.model.enums.CaseStatus;
@@ -24,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -241,6 +239,40 @@ public class ServiceCaseServiceImpl implements ServiceCaseService {
             );
         } catch (Exception e) {
             log.error("Error when get summary by status: {}", e.getMessage(), e);
+            return new DataResponse<>(
+                    ResponseMessage.MSG_INTERNAL_SERVER_ERROR,
+                    "Proses Gagal",
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null
+            );
+        }
+    }
+
+    @Override
+    public DataResponse<List<TrackingCodeDto>> getServiceCaseByTrackingCodes(String trackingCode) {
+        try {
+            List<TrackingCodeProjection> trackingProjections = serviceCaseRepository.getServiceCaseByTrackingCode(trackingCode);
+            List<TrackingCodeDto> responseList = new ArrayList<>();
+            for (TrackingCodeProjection projection : trackingProjections) {
+                TrackingCodeDto dto = new TrackingCodeDto();
+                dto.setTrackingCode(projection.getTrackingCode());
+                dto.setWorkflow(projection.getWorkflow());
+                dto.setTahapan(projection.getTahapan());
+                dto.setStatus(projection.getStatus());
+                responseList.add(dto);
+            }
+            return new DataResponse<>(
+                    ResponseMessage.DATA_FETCHED,
+                    "Proses Berhasil",
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.OK.value(),
+                    responseList
+            );
+        } catch (Exception e) {
+            log.error("Error when get service case by tracking code: {}", e.getMessage(), e);
             return new DataResponse<>(
                     ResponseMessage.MSG_INTERNAL_SERVER_ERROR,
                     "Proses Gagal",

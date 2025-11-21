@@ -1,5 +1,6 @@
 package jalilspringproject.workflow_monitoring_app.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.dto.case_stage.request.CaseStageRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.case_stage.response.CaseStageResponseDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/case-stages")
 @CrossOrigin
+@Tag(name = "Case Stage Controller", description = "Controller untuk monitoring progress dari setiap tahapan dalam sebuah kasus layanan.")
 public class CaseStageController {
     @Autowired
     CaseStageService caseStageService;

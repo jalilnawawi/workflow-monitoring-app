@@ -1,10 +1,12 @@
 package jalilspringproject.workflow_monitoring_app.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request.ServiceCaseRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.SummaryServiceCaseByStatusResponse;
+import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.TrackingCodeDto;
 import jalilspringproject.workflow_monitoring_app.service.ServiceCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/service-cases")
 @CrossOrigin
+@Tag(name = "Service Case Controller", description = "Controller untuk monitoring progress dari setiap layanan yang berjalan.")
 public class ServiceCaseController {
     @Autowired
     ServiceCaseService serviceCaseService;
@@ -76,6 +79,14 @@ public class ServiceCaseController {
     @GetMapping("/summary-by-status")
     public ResponseEntity<DataResponse<List<SummaryServiceCaseByStatusResponse>>> getSummaryByStatus() {
         DataResponse<List<SummaryServiceCaseByStatusResponse>> response = serviceCaseService.getSummaryByStatus();
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @GetMapping("/{trackingCode}/tracking")
+    public ResponseEntity<DataResponse<List<TrackingCodeDto>>> getServiceCaseByTrackingCodes(
+            @PathVariable String trackingCode
+    ) {
+        DataResponse<List<TrackingCodeDto>> response = serviceCaseService.getServiceCaseByTrackingCodes(trackingCode);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

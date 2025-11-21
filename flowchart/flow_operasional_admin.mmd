@@ -1,11 +1,11 @@
 flowchart TD
 %% Alur pengguna operasional
-    A[Masuk sebagai Operasional] --> B[Buka Service Case]
+    A[Masuk sebagai Operasional] --> B[Buka Service Case<br/><br/>endpoint: GET /service-cases]
     B --> C{Apakah Service Case ada?}
-    C -- Tidak --> D[Buat Service Case baru]
-    D --> E[Sistem membuat CaseStage dari WorkflowTemplat]
-    C -- Ya --> F[Buka detail Service Case]
-    F --> G[Kerjakan CaseStage]
+    C -- Tidak --> D[Buat Service Case baru<br/><br/>endpoint: POST /service-cases]
+    D --> E[Sistem membuat CaseStage dari WorkflowTemplate]
+    C -- Ya --> F[Buka detail Service Case<br/><br/>endpoint: GET /service-cases/:id]
+    F --> G[Kerjakan CaseStage<br/><br/>endpoint: POST /case-stages/:id]
     E --> G
 
     G --> H{Apakah CaseStage Saat Ini membutuhkan Evidence?}
