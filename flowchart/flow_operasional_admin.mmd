@@ -1,0 +1,20 @@
+flowchart TD
+%% Alur pengguna operasional
+    A[Masuk sebagai Operasional] --> B[Buka Service Case]
+    B --> C{Apakah Service Case ada?}
+    C -- Tidak --> D[Buat Service Case baru]
+    D --> E[Sistem membuat CaseStage dari WorkflowTemplat]
+    C -- Ya --> F[Buka detail Service Case]
+    F --> G[Kerjakan CaseStage]
+    E --> G
+
+    G --> H{Apakah CaseStage Saat Ini membutuhkan Evidence?}
+    H -- Ya --> I[Upload Evidence]
+    I --> J[Evidence tersimpan ke database]
+    H -- Tidak --> J
+
+    J --> K[Perbarui status CaseStage menjadi COMPLETED]
+    K --> L{Semua CaseStage selesai?}
+    L -- Tidak --> G
+    L -- Ya --> M[Update status Service Case menjadi COMPLETED]
+    M --> N[Operasional selesai]
