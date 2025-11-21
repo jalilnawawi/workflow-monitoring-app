@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/evidences")
+@CrossOrigin
 public class EvidenceController {
     @Autowired
     private EvidenceService evidenceService;

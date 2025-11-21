@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/case-stages")
+@CrossOrigin
 public class CaseStageController {
     @Autowired
     CaseStageService caseStageService;

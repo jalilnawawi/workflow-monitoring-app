@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/stage-templates")
+@CrossOrigin
 public class StageTemplateController {
     @Autowired
     private StageTemplateService stageTemplateService;

@@ -6,13 +6,11 @@ import jalilspringproject.workflow_monitoring_app.model.dto.user.response.Create
 import jalilspringproject.workflow_monitoring_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin
 public class UserController {
     @Autowired
     UserService userService;

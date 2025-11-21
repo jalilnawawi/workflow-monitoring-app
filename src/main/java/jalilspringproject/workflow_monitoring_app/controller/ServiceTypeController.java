@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/service-types")
+@CrossOrigin
 public class ServiceTypeController {
     @Autowired
     private ServiceTypeService serviceTypeService;

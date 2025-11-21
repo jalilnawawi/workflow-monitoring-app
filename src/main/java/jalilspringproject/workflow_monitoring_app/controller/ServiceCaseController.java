@@ -4,6 +4,7 @@ import jalilspringproject.workflow_monitoring_app.model.base_response.DataRespon
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request.ServiceCaseRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
+import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.SummaryServiceCaseByStatusResponse;
 import jalilspringproject.workflow_monitoring_app.service.ServiceCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/service-cases")
+@CrossOrigin
 public class ServiceCaseController {
     @Autowired
     ServiceCaseService serviceCaseService;
@@ -69,5 +71,11 @@ public class ServiceCaseController {
     public ResponseEntity<Void> deleteServiceCase(@PathVariable Long serviceCaseId) {
         serviceCaseService.deleteServiceCase(serviceCaseId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/summary-by-status")
+    public ResponseEntity<DataResponse<List<SummaryServiceCaseByStatusResponse>>> getSummaryByStatus() {
+        DataResponse<List<SummaryServiceCaseByStatusResponse>> response = serviceCaseService.getSummaryByStatus();
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

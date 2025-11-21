@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/workflow-templates")
+@CrossOrigin
 public class WorkflowTemplateController {
     @Autowired
     private WorkflowTemplateService workflowTemplateService;

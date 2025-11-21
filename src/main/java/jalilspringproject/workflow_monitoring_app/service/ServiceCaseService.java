@@ -4,6 +4,7 @@ import jalilspringproject.workflow_monitoring_app.model.base_response.DataRespon
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request.ServiceCaseRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
+import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.SummaryServiceCaseByStatusResponse;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface ServiceCaseService {
     DataResponse<ServiceCaseResponseDto> updateServiceCase(Long serviceCaseId, ServiceCaseRequestDto serviceCaseRequestDto);
     DataResponse<ServiceCaseResponseDto> changeStatus(Long serviceCaseId, String status);
     void deleteServiceCase(Long serviceCaseId);
+    DataResponse<List<SummaryServiceCaseByStatusResponse>> getSummaryByStatus();
 }

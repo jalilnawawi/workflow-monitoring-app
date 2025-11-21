@@ -5,6 +5,8 @@ import jalilspringproject.workflow_monitoring_app.model.base_response.ResponseMe
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.request.ServiceCaseRequestDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.GetServiceCaseResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.ServiceCaseResponseDto;
+import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.SummaryServiceCaseByStatusProjection;
+import jalilspringproject.workflow_monitoring_app.model.dto.service_case.response.SummaryServiceCaseByStatusResponse;
 import jalilspringproject.workflow_monitoring_app.model.entity.ServiceCase;
 import jalilspringproject.workflow_monitoring_app.model.entity.User;
 import jalilspringproject.workflow_monitoring_app.model.enums.CaseStatus;
@@ -219,6 +221,34 @@ public class ServiceCaseServiceImpl implements ServiceCaseService {
             serviceCaseRepository.deleteById(serviceCaseId);
         } catch (Exception e) {
             log.error("Error when delete service case: {}", e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public DataResponse<List<SummaryServiceCaseByStatusResponse>> getSummaryByStatus() {
+        try {
+            List<SummaryServiceCaseByStatusProjection> summaryProjections = serviceCaseRepository.getSummaryByStatus();
+            List<SummaryServiceCaseByStatusResponse> responseList = summaryProjections.stream()
+                    .map(SummaryServiceCaseByStatusResponse::fromProjection)
+                    .toList();
+            return new DataResponse<>(
+                    ResponseMessage.DATA_FETCHED,
+                    "Proses Berhasil",
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.OK.value(),
+                    responseList
+            );
+        } catch (Exception e) {
+            log.error("Error when get summary by status: {}", e.getMessage(), e);
+            return new DataResponse<>(
+                    ResponseMessage.MSG_INTERNAL_SERVER_ERROR,
+                    "Proses Gagal",
+                    loggingHolder.getPath(),
+                    loggingHolder.getDate(),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    null
+            );
         }
     }
 }
