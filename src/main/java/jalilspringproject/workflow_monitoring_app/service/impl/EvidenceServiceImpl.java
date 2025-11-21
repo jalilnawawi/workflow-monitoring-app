@@ -1,5 +1,7 @@
 package jalilspringproject.workflow_monitoring_app.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import jalilspringproject.workflow_monitoring_app.model.base_response.DataResponse;
 import jalilspringproject.workflow_monitoring_app.model.base_response.ResponseMessage;
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.request.EvidenceRequestDto;
@@ -7,8 +9,10 @@ import jalilspringproject.workflow_monitoring_app.model.dto.evidence.response.Ev
 import jalilspringproject.workflow_monitoring_app.model.dto.evidence.response.GetEvidenceResponseDto;
 import jalilspringproject.workflow_monitoring_app.model.entity.CaseStage;
 import jalilspringproject.workflow_monitoring_app.model.entity.Evidence;
+import jalilspringproject.workflow_monitoring_app.model.entity.User;
 import jalilspringproject.workflow_monitoring_app.repository.CaseStageRepository;
 import jalilspringproject.workflow_monitoring_app.repository.EvidenceRepository;
+import jalilspringproject.workflow_monitoring_app.repository.UserRepository;
 import jalilspringproject.workflow_monitoring_app.service.EvidenceService;
 import jalilspringproject.workflow_monitoring_app.util.interceptor.LoggingHolder;
 import org.apache.logging.log4j.LogManager;
@@ -16,8 +20,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class EvidenceServiceImpl implements EvidenceService {
@@ -28,24 +36,58 @@ public class EvidenceServiceImpl implements EvidenceService {
     private CaseStageRepository caseStageRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private LoggingHolder loggingHolder;
+
+    @Autowired
+    private Cloudinary cloudinary;
 
     private static final Logger log = LogManager.getLogger(EvidenceServiceImpl.class);
 
     @Override
-    public DataResponse<EvidenceResponseDto> createEvidence(Long caseStageId, EvidenceRequestDto evidenceRequestDto) {
+    public DataResponse<EvidenceResponseDto> createEvidence(Long caseStageId, EvidenceRequestDto evidenceRequestDto, MultipartFile file) throws IOException {
         try {
-            Evidence evidence = new Evidence();
-            evidence.setFileName(evidenceRequestDto.getFileName());
-            evidence.setFileUrl(evidenceRequestDto.getFileUrl());
-            evidence.setFileType(evidenceRequestDto.getFileType());
-            evidence.setDescription(evidenceRequestDto.getDescription());
-
             CaseStage caseStage = caseStageRepository.findById(caseStageId).orElseThrow(
                     () -> new RuntimeException("CaseStage with ID " + caseStageId + " not found")
             );
+
+            User user = userRepository.findById(UUID.fromString("a802aa3c-78a5-4e53-b95e-38fe0bf7ce0e")).orElseThrow(
+                    () -> new RuntimeException("User not found")
+            );
+
+            // cloudinary
+            String contentType = file.getContentType();
+            System.out.println("Content Type: " + contentType);
+
+            String resourceType = "raw";
+
+            if (contentType != null && contentType.startsWith("image/")) {
+                resourceType = "image";
+            }
+
+            Map uploadResult = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap(
+                            "resource_type", resourceType,
+                            "folder", "evidence_files/"
+                    )
+            );
+
+            String secureUrl = (String) uploadResult.get("secure_url");
+            String originalFilename = (String) uploadResult.get("original_filename");
+            String format = (String) uploadResult.get("format");
+
+            Evidence evidence = new Evidence();
+            evidence.setFileUrl(secureUrl);
+            evidence.setFileName(originalFilename + "." + format);
+            evidence.setFileType(contentType != null ? contentType : format);
+            evidence.setDescription(evidenceRequestDto.getDescription());
+
+
             evidence.setCaseStage(caseStage);
-            evidence.setUploadedBy(null); // Set uploadedBy appropriately
+            evidence.setUploadedBy(user); // Set uploadedBy appropriately
             Evidence saved = evidenceRepository.save(evidence);
 
             EvidenceResponseDto responseDto = EvidenceResponseDto.toCreateEvidenceResponseDto(saved);
@@ -133,9 +175,9 @@ public class EvidenceServiceImpl implements EvidenceService {
             Evidence evidence = evidenceRepository.findById(id).orElseThrow(
                     () -> new RuntimeException("Evidence with ID " + id + " not found")
             );
-            evidence.setFileName(evidenceRequestDto.getFileName());
-            evidence.setFileUrl(evidenceRequestDto.getFileUrl());
-            evidence.setFileType(evidenceRequestDto.getFileType());
+//            evidence.setFileName(evidenceRequestDto.getFileName());
+//            evidence.setFileUrl(evidenceRequestDto.getFileUrl());
+//            evidence.setFileType(evidenceRequestDto.getFileType());
             evidence.setDescription(evidenceRequestDto.getDescription());
             Evidence updated = evidenceRepository.save(evidence);
             EvidenceResponseDto responseDto = EvidenceResponseDto.toCreateEvidenceResponseDto(updated);

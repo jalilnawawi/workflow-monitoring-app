@@ -10,8 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EvidenceRequestDto {
-    private String fileUrl;
-    private String fileName;
-    private String fileType;
     private String description;
 }

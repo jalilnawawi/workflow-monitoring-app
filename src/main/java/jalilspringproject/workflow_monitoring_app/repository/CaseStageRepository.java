@@ -4,6 +4,9 @@ import jalilspringproject.workflow_monitoring_app.model.entity.CaseStage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CaseStageRepository extends JpaRepository<CaseStage, Long> {
+    Optional<CaseStage> findByServiceCaseId(Long serviceCaseId);
 }
